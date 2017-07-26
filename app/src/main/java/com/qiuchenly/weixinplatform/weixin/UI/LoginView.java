@@ -1,6 +1,6 @@
 package com.qiuchenly.weixinplatform.weixin.UI;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,7 +12,38 @@ public class LoginView extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_view);
+    }
+
+    @Override
+    public void doBusiness(Context mContext) {
+        showToast("WelCome to LoginView!");
+    }
+
+    @Override
+    public void setListener() {
+
+    }
+
+    @Override
+    public View bindView() {
+        return null;
+    }
+
+    @Override
+    public int bindLayout() {
+        return R.layout.activity_login_view;
+    }
+
+    @Override
+    public void initView(View view) {
+
+    }
+
+    @Override
+    public void initParams(Bundle bundle) {
+        setAllowDoubleClickBackKey(true);
+//        setAllowStatusBar(true);
+        setDisableActionBar(true);
     }
 
     @Override
