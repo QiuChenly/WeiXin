@@ -86,7 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public abstract void initView(final View view);
 
-    protected <T extends View> T find(int resID) {
+    protected <T extends View> T $(int resID) {
         return (T) super.findViewById(resID);
     }
 

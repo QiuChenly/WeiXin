@@ -4,18 +4,24 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
 import com.qiuchenly.weixinplatform.weixin.UI.LoginView;
 
 public class SplashView extends BaseActivity {
 
+    ImageView mBackgroundImage;
+    LinearLayout info;
 
     /**
      * 设置全局统一OnClickListener
      */
     @Override
     public void setListener() {
+
 
     }
 
@@ -47,7 +53,8 @@ public class SplashView extends BaseActivity {
      */
     @Override
     public void initView(View view) {
-
+        info = $(R.id.InfoView);
+        mBackgroundImage = $(R.id.mSplashImage);
     }
 
     /**
@@ -80,12 +87,24 @@ public class SplashView extends BaseActivity {
 
     @Override
     public void doBusiness(Context mContext) {
+        final AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+        alphaAnimation.setDuration(800);
+        alphaAnimation.setFillAfter(true);
+
+        info.setAlpha(0f);
+        //Set Bitmap In here Tips:QiuChenly
+
+        info.setAlpha(1f);
+        info.setAnimation(alphaAnimation);
+        alphaAnimation.start();
         showToast("WelCome to SplashView");
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 startActivity(LoginView.class);
+                finish();
             }
         }, 3000);
     }
