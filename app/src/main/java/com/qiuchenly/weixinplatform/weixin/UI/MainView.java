@@ -24,6 +24,8 @@ public class MainView extends BaseActivity {
         list.add(inflater.inflate(R.layout.mlayout_inquiryview, null));
         list.add(inflater.inflate(R.layout.mlayout_myinfo, null));
 
+
+        //testUp
         List<String> listTitle = new ArrayList<>();
         listTitle.add("首页");
         listTitle.add("查找地图");
