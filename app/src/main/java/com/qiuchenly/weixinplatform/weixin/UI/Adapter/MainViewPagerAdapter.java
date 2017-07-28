@@ -8,9 +8,9 @@ import java.util.List;
 
 /**
  * Author: QiuChenluoye
- * Time: 2017/07/28,上午 10:33
- * Func: 具体实现类
- * Using: 无解释
+ * Time  : 2017/07/28,上午 10:33
+ * Func  : 具体实现类
+ * Using : 无解释
  */
 
 public class MainViewPagerAdapter extends BaseViewPagerAdapter {
@@ -32,5 +32,10 @@ public class MainViewPagerAdapter extends BaseViewPagerAdapter {
     @Override
     public List<String> setViewTitle() {
         return listStringTitle;
+    }
+
+    @Override
+    public void ViewID(int position) {
+
     }
 }

@@ -63,6 +63,9 @@ public abstract class BaseViewPagerAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
+        ViewID(position);
         return mTitle.get(position);
     }
+   public  abstract void ViewID(int position);
+
 }

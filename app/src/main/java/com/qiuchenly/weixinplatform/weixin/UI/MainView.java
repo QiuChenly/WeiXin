@@ -56,6 +56,7 @@ public class MainView extends BaseActivity {
     @Override
     public void initParams(Bundle bundle) {
         super.setAllowDoubleClickBackKey(true);
+//        super.setDisableActionBar(true);
     }
 
     @Override
