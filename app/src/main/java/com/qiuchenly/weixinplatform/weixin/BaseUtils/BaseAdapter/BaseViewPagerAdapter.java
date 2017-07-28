@@ -14,12 +14,12 @@ import java.util.List;
  * Using: 无解释
  */
 
-public abstract class mBaseViewPagerAdapter extends PagerAdapter {
+public abstract class BaseViewPagerAdapter extends PagerAdapter {
 
     List<View> mList;
     List<String> mTitle;
 
-    public mBaseViewPagerAdapter() {
+    public void InitBaseViewPagerAdapter() {
         mList = setViews();
         if (null == mList) {
             mList = new ArrayList<>();
@@ -35,9 +35,9 @@ public abstract class mBaseViewPagerAdapter extends PagerAdapter {
         }
     }
 
-    abstract List<View> setViews();
+    public abstract List<View> setViews();
 
-    abstract List<String> setViewTitle();
+    public abstract List<String> setViewTitle();
 
     @Override
     public int getCount() {
@@ -63,6 +63,6 @@ public abstract class mBaseViewPagerAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return super.getPageTitle(position);
+        return mTitle.get(position);
     }
 }
