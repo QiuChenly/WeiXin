@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
-import com.qiuchenly.weixinplatform.weixin.UI.LoginView;
+import com.qiuchenly.weixinplatform.weixin.UI.MainView;
 
 public class SplashView extends BaseActivity {
 
@@ -64,6 +64,7 @@ public class SplashView extends BaseActivity {
      */
     @Override
     public void initParams(Bundle bundle) {
+
         super.setAllowStatusBar(true);
         super.setAllowDoubleClickBackKey(false);
         super.setDisableActionBar(true);
@@ -87,12 +88,16 @@ public class SplashView extends BaseActivity {
 
     @Override
     public void doBusiness(Context mContext) {
+
+
+        //设定的一个特效
         final AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
-        alphaAnimation.setDuration(800);
+        alphaAnimation.setDuration(1200);
         alphaAnimation.setFillAfter(true);
 
         info.setAlpha(0f);
         //Set Bitmap In here Tips:QiuChenly
+
 
         info.setAlpha(1f);
         info.setAnimation(alphaAnimation);
@@ -102,8 +107,7 @@ public class SplashView extends BaseActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                startActivity(LoginView.class);
+                startActivity(MainView.class);
                 finish();
             }
         }, 3000);

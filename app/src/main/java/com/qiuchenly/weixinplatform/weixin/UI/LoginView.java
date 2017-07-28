@@ -42,7 +42,7 @@ public class LoginView extends BaseActivity {
     @Override
     public void initParams(Bundle bundle) {
         setAllowDoubleClickBackKey(true);
-//        setAllowStatusBar(true);
+        //setAllowStatusBar(false);
         setDisableActionBar(true);
     }
 

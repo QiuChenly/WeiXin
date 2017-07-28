@@ -29,7 +29,7 @@ public abstract class BaseActivity extends AppCompatActivity
     protected final String TAG = this.getClass().getSimpleName();
 
     //是否关闭ActionBar改由自定义Toolbar
-    private boolean isDisableActionBar = false;
+    private boolean isDisableActionBar = true;
 
     //是否透明状态栏
     private boolean isAllowStatusBar = true;
@@ -56,6 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity
             mContextView = setView;
         }
 
+        //是否透明状态栏
         if (isAllowStatusBar) {
             setLayoutFullScreen();
         }
