@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.baidu.mapapi.SDKInitializer;
+
 /**
  * Author: QiuChenluoye
  * Time: 2017/07/26,上午 09:58
@@ -43,6 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SDKInitializer.initialize(getApplicationContext());
         Log.d(TAG, "BaseActivity----is OnCreate.");
 
         Bundle bundle = getIntent().getExtras();

@@ -25,7 +25,7 @@ public abstract class myBDListener implements BDLocationListener {
         this.conn = conn;
     }
 
-    public abstract void ResolveData(String data);
+    public abstract void ResolveData(String data,BDLocation location);
 
     @Override
     public void onReceiveLocation(BDLocation location) {
@@ -127,7 +127,7 @@ public abstract class myBDListener implements BDLocationListener {
                 sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
             }
         }
-        ResolveData(sb.toString());
+        ResolveData(sb.toString(),location);
 //        time : 2017-07-31 14:46:47
 //        error code : 161
 //        latitude : 32.042194

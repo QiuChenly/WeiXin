@@ -15,7 +15,7 @@ import java.util.List;
  * Using : 实现Viewpager适配器
  */
 
-public class MainViewPagerAdapter extends BaseViewPagerAdapter {
+public abstract class MainViewPagerAdapter extends BaseViewPagerAdapter {
 
     List<View> listView;
     List<TextView> textViewList;
@@ -37,6 +37,10 @@ public class MainViewPagerAdapter extends BaseViewPagerAdapter {
             t.setTextColor(Color.parseColor("#888888"));
         }
         (textViewList.get(position)).setTextColor(Color.parseColor("#333333"));
+
+        SwitchView(position);
     }
+
+    public abstract void SwitchView(int position);
 
 }

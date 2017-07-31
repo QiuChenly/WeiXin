@@ -4,16 +4,28 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
 import com.qiuchenly.weixinplatform.weixin.R;
 import com.qiuchenly.weixinplatform.weixin.UI.Adapter.MainViewPagerAdapter;
@@ -26,6 +38,8 @@ public class MainView extends BaseActivity {
     private String permissionInfo;
 
     TextView testShow;
+
+    MapView mMapView = null;
 
     private ViewPager mViewPager;
     private LocationClient mBDLoactionClient;
@@ -91,18 +105,27 @@ public class MainView extends BaseActivity {
 
         mBDLocationListener = new myBDListener(this) {
             @Override
-            public void ResolveData(String data) {
-                final String s = data + "\n" + System.currentTimeMillis();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        TextView t = (TextView) findViewById(R.id.TestShowXY);
-                        if (!isNull(t)) {
-                            t.setText(s);
-                        }
-                    }
-                });
-               //Toast.makeText(conn, data, Toast.LENGTH_SHORT).show();
+            public void ResolveData(String data, BDLocation location) {
+                if (mMapView == null) {
+                    return;
+                }
+                BaiduMap mBaiduMap = mMapView.getMap();
+                // 开启定位图层
+                mBaiduMap.setMyLocationEnabled(true);
+// 构造定位数据
+                MyLocationData locData = new MyLocationData.Builder()
+                        .accuracy(location.getRadius())
+                        // 此处设置开发者获取到的方向信息，顺时针0-360
+                        .direction(100).latitude(location.getLatitude())
+                        .longitude(location.getLongitude()).build();
+// 设置定位数据
+                mBaiduMap.setMyLocationData(locData);
+// 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
+               BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
+                        .fromResource(R.drawable.ic_person);
+                MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.COMPASS, true, mCurrentMarker);
+                mBaiduMap.setMyLocationConfiguration(config);
+                //Toast.makeText(conn, data, Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -159,14 +182,27 @@ public class MainView extends BaseActivity {
         textViews.add((TextView) $(R.id.myRoundPlace));
         textViews.add((TextView) $(R.id.mySelfText));
 
-        MainViewPagerAdapter adapter = new MainViewPagerAdapter(list, textViews);
+        MainViewPagerAdapter adapter = new MainViewPagerAdapter(list, textViews) {
+            @Override
+            public void SwitchView(int position) {
+            showToast(String.valueOf(position));
+            }
+        };
         mViewPager.setAdapter(adapter);
         mViewPager.setOnPageChangeListener(adapter);
 
 
         initLocation();
         mBDLoactionClient.start();
+
+
     }
+
+    //FIXME:2017/07/31
+    //设计Handler通信。
+    //设计解耦
+    //将切换View的时间结合
+    //ViewClick和ViewSwitch
 
     @Override
     public void setListener() {
@@ -197,20 +233,68 @@ public class MainView extends BaseActivity {
 //        super.setDisableActionBar(true);
     }
 
+    Handler MasterHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message message) {
+
+            return false;
+        }
+    });
+
     @Override
     public void ViewClick(View v) {
+        mMapView = $(R.id.bmapView);
         switch (v.getId()) {
             case R.id.myMapLayout:
                 mViewPager.setCurrentItem(0);
+                mMapView = $(R.id.bmapView);
+                BaiduMap mBaiduMap = mMapView.getMap();
+                mBaiduMap.setTrafficEnabled(true);
+                //普通地图
+                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+
+//卫星地图
+               // mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+
+//空白地图, 基础地图瓦片将不会被渲染。在地图类型中设置为NONE，将不会使用流量下载基础地图瓦片图层。使用场景：与瓦片图层一起使用，节省流量，提升自定义瓦片图下载速度。
+//                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
+//                mBaiduMap.setBaiduHeatMapEnabled(false);
+
+
+// 当不需要定位图层时关闭定位图层
+//                mBaiduMap.setMyLocationEnabled(false);
+
+
+                mMapView.onResume();
                 break;
             case R.id.myPlaceLayout:
+                mMapView.onPause();
                 mViewPager.setCurrentItem(1);
                 break;
             case R.id.mySelfLayout:
+                mMapView.onPause();
                 mViewPager.setCurrentItem(2);
                 break;
             default:
                 break;
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }
