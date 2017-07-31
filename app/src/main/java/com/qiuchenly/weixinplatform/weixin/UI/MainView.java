@@ -26,9 +26,9 @@ public class MainView extends BaseActivity {
         list.add(inflater.inflate(R.layout.mlayout_myinfo, null));
 
         List<TextView> textViews = new ArrayList<>();
-        textViews.add((TextView) findViewById(R.id.myMap));
-        textViews.add((TextView) findViewById(R.id.myRoundPlace));
-        textViews.add((TextView) findViewById(R.id.mySelfText));
+        textViews.add((TextView) $(R.id.myMap));
+        textViews.add((TextView) $(R.id.myRoundPlace));
+        textViews.add((TextView) $(R.id.mySelfText));
 
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(list, textViews);
         mViewPager.setAdapter(adapter);
@@ -37,7 +37,9 @@ public class MainView extends BaseActivity {
 
     @Override
     public void setListener() {
-
+        ($(R.id.myMapLayout)).setOnClickListener(this);
+        ($(R.id.myPlaceLayout)).setOnClickListener(this);
+        ($(R.id.mySelfLayout)).setOnClickListener(this);
     }
 
     @Override
@@ -63,6 +65,19 @@ public class MainView extends BaseActivity {
 
     @Override
     public void ViewClick(View v) {
-
+        switch (v.getId())
+        {
+            case R.id.myMapLayout:
+                mViewPager.setCurrentItem(0);
+                break;
+            case R.id.myPlaceLayout:
+                mViewPager.setCurrentItem(1);
+                break;
+            case R.id.mySelfLayout:
+                mViewPager.setCurrentItem(2);
+                break;
+            default:
+                break;
+        }
     }
 }
