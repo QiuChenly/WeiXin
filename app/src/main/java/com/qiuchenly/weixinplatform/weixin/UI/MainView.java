@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
 import com.qiuchenly.weixinplatform.weixin.R;
@@ -24,13 +25,14 @@ public class MainView extends BaseActivity {
         list.add(inflater.inflate(R.layout.mlayout_inquiryview, null));
         list.add(inflater.inflate(R.layout.mlayout_myinfo, null));
 
-        List<String> listTitle = new ArrayList<>();
-        listTitle.add("首页");
-        listTitle.add("查找地图");
-        listTitle.add("关于我");
-        MainViewPagerAdapter adapter = new MainViewPagerAdapter(list, listTitle);
-        mViewPager.setAdapter(adapter);
+        List<TextView> textViews = new ArrayList<>();
+        textViews.add((TextView) findViewById(R.id.myMap));
+        textViews.add((TextView) findViewById(R.id.myRoundPlace));
+        textViews.add((TextView) findViewById(R.id.mySelfText));
 
+        MainViewPagerAdapter adapter = new MainViewPagerAdapter(list, textViews);
+        mViewPager.setAdapter(adapter);
+        mViewPager.setOnPageChangeListener(adapter);
     }
 
     @Override
