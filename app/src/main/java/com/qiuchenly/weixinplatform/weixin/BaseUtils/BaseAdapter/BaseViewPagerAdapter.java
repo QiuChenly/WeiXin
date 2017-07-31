@@ -1,6 +1,7 @@
 package com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseAdapter;
 
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,7 +15,8 @@ import java.util.List;
  * Using: 无解释
  */
 
-public abstract class BaseViewPagerAdapter extends PagerAdapter {
+public abstract class BaseViewPagerAdapter extends PagerAdapter
+        implements ViewPager.OnPageChangeListener {
 
     List<View> mList;
     List<String> mTitle;
@@ -24,20 +26,10 @@ public abstract class BaseViewPagerAdapter extends PagerAdapter {
         if (null == mList) {
             mList = new ArrayList<>();
         }
-        mTitle = setViewTitle();
-        if (null == mTitle) {
-            mTitle = new ArrayList<>();
-            if (mList != null) {
-                for (int a = 1; a <= mList.size(); a++) {
-                    mTitle.add(String.valueOf(a));
-                }
-            }
-        }
+
     }
 
     public abstract List<View> setViews();
-
-    public abstract List<String> setViewTitle();
 
     @Override
     public int getCount() {
@@ -63,6 +55,23 @@ public abstract class BaseViewPagerAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mTitle.get(position);
+        return super.getPageTitle(position);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        ViewID(position);
+    }
+
+    public abstract void ViewID(int position);
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

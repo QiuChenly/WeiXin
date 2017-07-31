@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f2f4f5">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:alpha="0.1"
+        android:background="#000000"/>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/myMapLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center"
+                android:background="#00000000"
+                android:clickable="false"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_place"/>
+
+            <TextView
+                android:id="@+id/myMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="地图"
+                android:textColor="#333333"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/myPlaceLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center"
+                android:background="#00000000"
+                android:clickable="false"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_golf"/>
+
+            <TextView
+                android:id="@+id/myRoundPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="周边"
+                android:textColor="#888888"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mySelfLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center"
+                android:background="#00000000"
+                android:clickable="false"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person"/>
+
+            <TextView
+                android:id="@+id/mySelfText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="我的"
+                android:textColor="#888888"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

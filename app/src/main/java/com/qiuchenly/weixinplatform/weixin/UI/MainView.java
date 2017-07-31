@@ -1,10 +1,12 @@
 package com.qiuchenly.weixinplatform.weixin.UI;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
 import com.qiuchenly.weixinplatform.weixin.R;
@@ -24,20 +26,22 @@ public class MainView extends BaseActivity {
         list.add(inflater.inflate(R.layout.mlayout_inquiryview, null));
         list.add(inflater.inflate(R.layout.mlayout_myinfo, null));
 
+        List<TextView> textViews = new ArrayList<>();
+        textViews.add((TextView) $(R.id.myMap));
+        textViews.add((TextView) $(R.id.myRoundPlace));
+        textViews.add((TextView) $(R.id.mySelfText));
 
-        //testUp
-        List<String> listTitle = new ArrayList<>();
-        listTitle.add("首页");
-        listTitle.add("查找地图");
-        listTitle.add("关于我");
-        MainViewPagerAdapter adapter = new MainViewPagerAdapter(list, listTitle);
+        MainViewPagerAdapter adapter = new MainViewPagerAdapter(list, textViews);
         mViewPager.setAdapter(adapter);
+        mViewPager.setOnPageChangeListener(adapter);
 
     }
 
     @Override
     public void setListener() {
-
+        ($(R.id.myMapLayout)).setOnClickListener(this);
+        ($(R.id.myPlaceLayout)).setOnClickListener(this);
+        ($(R.id.mySelfLayout)).setOnClickListener(this);
     }
 
     @Override
@@ -58,10 +62,23 @@ public class MainView extends BaseActivity {
     @Override
     public void initParams(Bundle bundle) {
         super.setAllowDoubleClickBackKey(true);
+//        super.setDisableActionBar(true);
     }
 
     @Override
     public void ViewClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.myMapLayout:
+                mViewPager.setCurrentItem(0);
+                break;
+            case R.id.myPlaceLayout:
+                mViewPager.setCurrentItem(1);
+                break;
+            case R.id.mySelfLayout:
+                mViewPager.setCurrentItem(2);
+                break;
+            default:
+                break;
+        }
     }
 }

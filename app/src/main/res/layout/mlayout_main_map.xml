@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="#f66ff8"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="#c60f0f"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button"
+    <CheckedTextView
+        android:id="@+id/checkedTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"/>
+        android:layout_marginTop="26dp"
+        android:text="CheckedTextView"/>
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"/>
 </LinearLayout>

@@ -4,22 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#b90404"
+    android:orientation="vertical"
     tools:context="com.qiuchenly.weixinplatform.weixin.UI.MainView">
 
+    <!--<include layout="@layout/toplayput"/>-->
+
     <android.support.v4.view.ViewPager
-        android:fitsSystemWindows="true"
         android:id="@+id/mMainViewPager"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="#ffffff"/>
 
-        <android.support.v4.view.PagerTitleStrip
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="center"
-            android:layout_gravity="top"
-            />
-
-    </android.support.v4.view.ViewPager>
+    <include layout="@layout/footerlayput"/>
 </LinearLayout>
