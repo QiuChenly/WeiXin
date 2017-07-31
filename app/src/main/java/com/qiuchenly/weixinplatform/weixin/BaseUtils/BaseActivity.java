@@ -88,7 +88,7 @@ public abstract class BaseActivity extends AppCompatActivity
     public abstract void initView(final View view);
 
     protected <T extends View> T $(int resID) {
-        return (T) super.findViewById(resID);
+        return (T) mContextView.findViewById(resID);
     }
 
     public abstract void initParams(Bundle bundle);
