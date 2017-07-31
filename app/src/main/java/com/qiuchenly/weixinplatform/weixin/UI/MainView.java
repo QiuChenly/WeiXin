@@ -1,6 +1,7 @@
 package com.qiuchenly.weixinplatform.weixin.UI;
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ public class MainView extends BaseActivity {
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(list, textViews);
         mViewPager.setAdapter(adapter);
         mViewPager.setOnPageChangeListener(adapter);
+
     }
 
     @Override
@@ -65,8 +67,7 @@ public class MainView extends BaseActivity {
 
     @Override
     public void ViewClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.myMapLayout:
                 mViewPager.setCurrentItem(0);
                 break;
