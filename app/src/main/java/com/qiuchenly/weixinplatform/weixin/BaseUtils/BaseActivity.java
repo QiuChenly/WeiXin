@@ -73,14 +73,14 @@ public abstract class BaseActivity extends AppCompatActivity
         setContentView(mContextView);
         initView(mContextView);
         setListener();
-        doBusiness(mContextView.getContext());
+        doBusiness(mContextView.getContext(), mContextView);
     }
 
     public <T> boolean isNull(T obj) {
         return (null == obj);
     }
 
-    public abstract void doBusiness(Context mContext);
+    public abstract void doBusiness(Context mContext, View view);
 
     public abstract void setListener();
 

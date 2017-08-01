@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
 import com.qiuchenly.weixinplatform.weixin.UI.MainView;
+import com.qiuchenly.weixinplatform.weixin.UI.RegisterView;
 
 public class SplashView extends BaseActivity {
 
@@ -87,7 +88,7 @@ public class SplashView extends BaseActivity {
      */
 
     @Override
-    public void doBusiness(Context mContext) {
+    public void doBusiness(Context mContext,View v) {
 
 
         //设定的一个特效
@@ -99,10 +100,11 @@ public class SplashView extends BaseActivity {
         //Set Bitmap In here Tips:QiuChenly
 
 
+
         info.setAlpha(1f);
         info.setAnimation(alphaAnimation);
         alphaAnimation.start();
-        showToast("WelCome to SplashView");
+//        showToast("WelCome to SplashView");
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

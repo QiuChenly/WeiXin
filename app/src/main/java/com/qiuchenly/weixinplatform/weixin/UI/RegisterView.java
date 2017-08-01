@@ -7,16 +7,12 @@ import android.view.View;
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
 import com.qiuchenly.weixinplatform.weixin.R;
 
-public class LoginView extends BaseActivity {
+public class RegisterView extends BaseActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public void doBusiness(Context mContext,View v) {
-        showToast("WelCome to LoginView!");
+
     }
 
     @Override
@@ -31,7 +27,7 @@ public class LoginView extends BaseActivity {
 
     @Override
     public int bindLayout() {
-        return R.layout.activity_login_view;
+        return R.layout.activity_register_view;
     }
 
     @Override
@@ -41,13 +37,15 @@ public class LoginView extends BaseActivity {
 
     @Override
     public void initParams(Bundle bundle) {
-        setAllowDoubleClickBackKey(true);
-        //setAllowStatusBar(false);
         setDisableActionBar(true);
     }
 
+
     @Override
     public void ViewClick(View v) {
-
+        switch (v.getId()) {
+            default:
+                break;
+        }
     }
 }

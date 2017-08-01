@@ -170,7 +170,7 @@ public class MainView extends BaseActivity {
     }
 
     @Override
-    public void doBusiness(Context mContext) {
+    public void doBusiness(Context mContext,View v) {
         LayoutInflater inflater = getLayoutInflater();
         List<View> list = new ArrayList<>();
         list.add(inflater.inflate(R.layout.mlayout_main_map, null));
