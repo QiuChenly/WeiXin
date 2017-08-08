@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,13 +12,11 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -29,6 +26,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
 import com.qiuchenly.weixinplatform.weixin.R;
 import com.qiuchenly.weixinplatform.weixin.UI.Adapter.MainViewPagerAdapter;
+import com.qiuchenly.weixinplatform.weixin.UI.Adapter.QuiryViewPagerAdapter;
 import com.qiuchenly.weixinplatform.weixin.UI.Adapter.myBDListener;
 
 import java.util.ArrayList;
@@ -121,7 +119,7 @@ public class MainView extends BaseActivity {
 // 设置定位数据
                 mBaiduMap.setMyLocationData(locData);
 // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
-               BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
+                BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
                         .fromResource(R.drawable.ic_person);
                 MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.COMPASS, true, mCurrentMarker);
                 mBaiduMap.setMyLocationConfiguration(config);
@@ -170,7 +168,7 @@ public class MainView extends BaseActivity {
     }
 
     @Override
-    public void doBusiness(Context mContext,View v) {
+    public void doBusiness(Context mContext, View v) {
         LayoutInflater inflater = getLayoutInflater();
         List<View> list = new ArrayList<>();
         list.add(inflater.inflate(R.layout.mlayout_main_map, null));
@@ -185,17 +183,15 @@ public class MainView extends BaseActivity {
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(list, textViews) {
             @Override
             public void SwitchView(int position) {
-            showToast(String.valueOf(position));
+                showToast(String.valueOf(position));
             }
         };
         mViewPager.setAdapter(adapter);
         mViewPager.setOnPageChangeListener(adapter);
-
-
+        //设置三级页面缓存
+        mViewPager.setOffscreenPageLimit(3);
         initLocation();
         mBDLoactionClient.start();
-
-
     }
 
     //FIXME:2017/07/31
@@ -254,22 +250,35 @@ public class MainView extends BaseActivity {
                 mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 
 //卫星地图
-               // mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+                // mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
 
 //空白地图, 基础地图瓦片将不会被渲染。在地图类型中设置为NONE，将不会使用流量下载基础地图瓦片图层。使用场景：与瓦片图层一起使用，节省流量，提升自定义瓦片图下载速度。
-//                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
-//                mBaiduMap.setBaiduHeatMapEnabled(false);
+                //                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
+                //                mBaiduMap.setBaiduHeatMapEnabled(false);
 
-
-// 当不需要定位图层时关闭定位图层
-//                mBaiduMap.setMyLocationEnabled(false);
-
+                // 当不需要定位图层时关闭定位图层
+                //mBaiduMap.setMyLocationEnabled(false);
 
                 mMapView.onResume();
                 break;
             case R.id.myPlaceLayout:
                 mMapView.onPause();
                 mViewPager.setCurrentItem(1);
+                ViewPager viewPager = $(R.id.mQuiryViewPager);
+
+                List<View> list = new ArrayList<>();
+                LayoutInflater inflater = getLayoutInflater();
+                list.add(inflater.inflate(R.layout.mlayout_main_map, null));
+                list.add(inflater.inflate(R.layout.mlayout_main_map, null));
+                list.add(inflater.inflate(R.layout.mlayout_main_map, null));
+
+                List<String> lists = new ArrayList<>();
+                lists.add("Page1");
+                lists.add("Page2");
+                lists.add("Page3");
+                QuiryViewPagerAdapter adapter = new QuiryViewPagerAdapter(list, lists);
+                viewPager.setOffscreenPageLimit(3);
+                viewPager.setAdapter(adapter);
                 break;
             case R.id.mySelfLayout:
                 mMapView.onPause();
