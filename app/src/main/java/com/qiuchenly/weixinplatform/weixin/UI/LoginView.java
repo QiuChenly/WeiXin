@@ -2,22 +2,37 @@ package com.qiuchenly.weixinplatform.weixin.UI;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.PointF;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearSmoothScroller;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
+import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseRecyclerViewAdapter;
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.HttpUtils.FuncUtils;
 import com.qiuchenly.weixinplatform.weixin.R;
 import com.qiuchenly.weixinplatform.weixin.UI.UILogic.InterMsgID;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginView extends BaseActivity {
 
     EditText userName, passWord;
     Button loginBtn, registerBtn;
+
+    RecyclerView mBack;
 
     FuncUtils funcUtils = new FuncUtils();
 
@@ -30,6 +45,21 @@ public class LoginView extends BaseActivity {
 
     @Override
     public void doBusiness(Context mContext, View v) {
+        BaseRecyclerViewAdapter adapter = new BaseRecyclerViewAdapter(this);
+        mBack.setItemAnimator(new DefaultItemAnimator());
+        mBack.setHasFixedSize(false);
+
+        mBack.setLayoutManager(new StaggeredGridLayoutManager(2,OrientationHelper.VERTICAL));
+        mBack.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                outRect.bottom = 5;
+                outRect.right = 5;
+                outRect.top = 5;
+                outRect.left = 5;
+            }
+        });
+        mBack.setAdapter(adapter);
 
     }
 
@@ -59,9 +89,9 @@ public class LoginView extends BaseActivity {
     public void initView(View view) {
         userName = $(R.id.login_user);
         passWord = $(R.id.login_pass);
-
         loginBtn = $(R.id.login_loginbtn);
         registerBtn = $(R.id.login_registerBtn);
+        mBack = $(R.id.mLoginBitmapRecycler);
     }
 
     @Override

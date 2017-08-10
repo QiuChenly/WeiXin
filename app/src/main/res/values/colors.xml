@@ -2,11 +2,10 @@
 <resources>
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#ffffff</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#2195f2</color>
 
     <color name="white">#ffffff</color>
     <color name="colorTransParent">#00ffffff</color>
-
 
     <!--tab标签栏文字的颜色-->
     <color name="colorTabText">#585858</color>
@@ -19,6 +18,5 @@
     <!--item的5.0一下版本选择器颜色-->
     <color name="itemLowBackground">#d9d9d9</color>
 
-
-    <color name="colorPrimaryColor">#d11c1c</color>
+    <color name="colorPrimaryColor">#2195f2</color>
 </resources>
