@@ -17,7 +17,7 @@ public class RegisterView extends BaseActivity {
     }
 
     @Override
-    public void doBusiness(Context mContext,View v) {
+    public void doBusiness(Context mContext, View v) {
 
     }
 
@@ -44,6 +44,7 @@ public class RegisterView extends BaseActivity {
     @Override
     public void initParams(Bundle bundle) {
         setDisableActionBar(true);
+        setOpenDoubleClickBackKeyReturnUpView(true);
     }
 
 

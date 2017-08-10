@@ -201,13 +201,6 @@ public class MainView extends BaseActivity {
         mViewPager.setOffscreenPageLimit(3);
         initLocation();
 //        MasterHandler.sendEmptyMessage(BaseMsgID.MsgID.Handle_BaiduMapInit);
-        new Thread(){
-            @Override
-            public void run() {
-                    FuncUtils f=new FuncUtils();
-                    f.login("15555555555","123");
-            }
-        }.start();
     }
 
     @Override

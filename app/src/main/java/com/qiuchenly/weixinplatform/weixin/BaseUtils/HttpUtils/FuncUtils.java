@@ -55,11 +55,11 @@ public class FuncUtils implements AbsLogin {
 
     }
 
-
     /**
      * 登录实现接口
+     *
      * @param userPhoneNum 手机号码
-     * @param pass 明文密码
+     * @param pass         明文密码
      * @return 返回true 成功,返回false失败
      */
     @Override
@@ -78,13 +78,14 @@ public class FuncUtils implements AbsLogin {
                 append(Sign);
         Sign = md5(Sign + passWord + url);
         url.append("&Signs=").append(Sign);
-        LoginResult result = new LoginResult();
+        LoginResult result;
+        String s = null;
         try {
-            result = GsonUtil.ResolveJsonA(httpClient.Request_Str(url.toString()), LoginResult.class);
+            s = httpClient.Request_Str(url.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        result = GsonUtil.ResolveJsonA(s, LoginResult.class);
         if (Objects.equals(result.getErrNo(), "0")) {
             return true;
         } else {

@@ -45,6 +45,19 @@ public abstract class BaseActivity extends AppCompatActivity
     //是否开启双击返回键退出
     private boolean isAllowDoubleClickBackKey = false;
 
+    //是否开启单击返回就爱你返回上一页
+    private boolean isOpenDoubleClickBackKeyReturnUpView = false;
+
+
+    /**
+     * 是否开启单击返回就爱你返回上一页
+     *
+     * @param openDoubleClickBackKeyReturnUpView
+     */
+    public void setOpenDoubleClickBackKeyReturnUpView(boolean openDoubleClickBackKeyReturnUpView) {
+        isOpenDoubleClickBackKeyReturnUpView = openDoubleClickBackKeyReturnUpView;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,19 +119,24 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (isAllowDoubleClickBackKey) {
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                long now = System.currentTimeMillis();
-                if (now - lastTime > 2000) {
-                    showToast("再按一次关闭程序~");
-                    lastTime = now;
-                } else {
-                    moveTaskToBack(true);
-                }
-            }
+        if (isOpenDoubleClickBackKeyReturnUpView) {
+            super.onKeyDown(keyCode, event);
             return true;
         } else {
-            return false;
+            if (isAllowDoubleClickBackKey) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    long now = System.currentTimeMillis();
+                    if (now - lastTime > 2000) {
+                        showToast("再按一次关闭程序~");
+                        lastTime = now;
+                    } else {
+                        moveTaskToBack(true);
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
