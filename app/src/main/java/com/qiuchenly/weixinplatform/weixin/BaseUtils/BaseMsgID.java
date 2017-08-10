@@ -14,5 +14,6 @@ public interface BaseMsgID {
 
     interface MsgID {
         int Handle_BaiduMapInit = Base.Base + 1;
+//        int Handle_
     }
 }

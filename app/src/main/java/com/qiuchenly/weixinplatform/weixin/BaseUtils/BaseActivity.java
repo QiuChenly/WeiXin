@@ -2,6 +2,7 @@ package com.qiuchenly.weixinplatform.weixin.BaseUtils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +24,8 @@ import com.baidu.mapapi.SDKInitializer;
 
 public abstract class BaseActivity extends AppCompatActivity
         implements View.OnClickListener {
+    private SharedPreferences Usp;
+    SharedPreferences.Editor Ueditor;
 
     //上一次按键时间
     long lastTime;
@@ -74,7 +77,12 @@ public abstract class BaseActivity extends AppCompatActivity
         initView(mContextView);
         setListener();
         doBusiness(mContextView.getContext(), mContextView);
+        Usp = BaseActivity.this.getSharedPreferences("QiuChen", MODE_ENABLE_WRITE_AHEAD_LOGGING);
+        Ueditor = Usp.edit();
+        getSharedPreference(Usp, Ueditor);
     }
+
+    public abstract void getSharedPreference(SharedPreferences sp, SharedPreferences.Editor Ueditors);
 
     public <T> boolean isNull(T obj) {
         return (null == obj);

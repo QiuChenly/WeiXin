@@ -1,6 +1,7 @@
 package com.qiuchenly.weixinplatform.weixin.UI;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,6 +10,11 @@ import com.qiuchenly.weixinplatform.weixin.R;
 
 public class RegisterView extends BaseActivity {
 
+
+    @Override
+    public void getSharedPreference(SharedPreferences sp, SharedPreferences.Editor Ueditors) {
+
+    }
 
     @Override
     public void doBusiness(Context mContext,View v) {

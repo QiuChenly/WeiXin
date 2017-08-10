@@ -3,12 +3,14 @@ package com.qiuchenly.weixinplatform.weixin.UI;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -24,11 +26,14 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
+import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseMsgID;
+import com.qiuchenly.weixinplatform.weixin.BaseUtils.HttpUtils.FuncUtils;
 import com.qiuchenly.weixinplatform.weixin.R;
 import com.qiuchenly.weixinplatform.weixin.UI.Adapter.MainViewPagerAdapter;
 import com.qiuchenly.weixinplatform.weixin.UI.Adapter.QuiryViewPagerAdapter;
 import com.qiuchenly.weixinplatform.weixin.UI.Adapter.myBDListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +105,6 @@ public class MainView extends BaseActivity {
 
     private void initLocation() {
         getPersimmions();
-
         mBDLocationListener = new myBDListener(this) {
             @Override
             public void ResolveData(String data, BDLocation location) {
@@ -137,7 +141,7 @@ public class MainView extends BaseActivity {
         //可选，默认gcj02，设置返回的定位结果坐标系
 
         int span = 1000;
-        option.setScanSpan(span);
+        option.setScanSpan(0);
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
 
         option.setIsNeedAddress(true);
@@ -168,6 +172,11 @@ public class MainView extends BaseActivity {
     }
 
     @Override
+    public void getSharedPreference(SharedPreferences sp, SharedPreferences.Editor Ueditors) {
+
+    }
+
+    @Override
     public void doBusiness(Context mContext, View v) {
         LayoutInflater inflater = getLayoutInflater();
         List<View> list = new ArrayList<>();
@@ -183,7 +192,7 @@ public class MainView extends BaseActivity {
         MainViewPagerAdapter adapter = new MainViewPagerAdapter(list, textViews) {
             @Override
             public void SwitchView(int position) {
-                showToast(String.valueOf(position));
+                MasterHandler.sendEmptyMessage(BaseMsgID.MsgID.Handle_BaiduMapInit);
             }
         };
         mViewPager.setAdapter(adapter);
@@ -191,14 +200,15 @@ public class MainView extends BaseActivity {
         //设置三级页面缓存
         mViewPager.setOffscreenPageLimit(3);
         initLocation();
-        mBDLoactionClient.start();
+//        MasterHandler.sendEmptyMessage(BaseMsgID.MsgID.Handle_BaiduMapInit);
+        new Thread(){
+            @Override
+            public void run() {
+                    FuncUtils f=new FuncUtils();
+                    f.login("15555555555","123");
+            }
+        }.start();
     }
-
-    //FIXME:2017/07/31
-    //设计Handler通信。
-    //设计解耦
-    //将切换View的时间结合
-    //ViewClick和ViewSwitch
 
     @Override
     public void setListener() {
@@ -229,43 +239,48 @@ public class MainView extends BaseActivity {
 //        super.setDisableActionBar(true);
     }
 
+
+    /**
+     * MasterHandleClass
+     */
     Handler MasterHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message message) {
+            switch (message.what) {
+                case BaseMsgID.MsgID.Handle_BaiduMapInit:
+                    mMapView = $(R.id.bmapView);
+                    BaiduMap mBaiduMap = mMapView.getMap();
+                    mBaiduMap.setTrafficEnabled(true);
+                    //普通地图
+                    mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 
+//卫星地图
+                    // mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+
+//空白地图, 基础地图瓦片将不会被渲染。在地图类型中设置为NONE，将不会使用流量下载基础地图瓦片图层。使用场景：与瓦片图层一起使用，节省流量，提升自定义瓦片图下载速度。
+                    //                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
+                    //                mBaiduMap.setBaiduHeatMapEnabled(false);
+
+                    // 当不需要定位图层时关闭定位图层
+                    //mBaiduMap.setMyLocationEnabled(false);
+                    mBDLoactionClient.start();
+                    break;
+            }
             return false;
         }
     });
 
     @Override
     public void ViewClick(View v) {
-        mMapView = $(R.id.bmapView);
+
         switch (v.getId()) {
             case R.id.myMapLayout:
                 mViewPager.setCurrentItem(0);
-                mMapView = $(R.id.bmapView);
-                BaiduMap mBaiduMap = mMapView.getMap();
-                mBaiduMap.setTrafficEnabled(true);
-                //普通地图
-                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-
-//卫星地图
-                // mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
-
-//空白地图, 基础地图瓦片将不会被渲染。在地图类型中设置为NONE，将不会使用流量下载基础地图瓦片图层。使用场景：与瓦片图层一起使用，节省流量，提升自定义瓦片图下载速度。
-                //                mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
-                //                mBaiduMap.setBaiduHeatMapEnabled(false);
-
-                // 当不需要定位图层时关闭定位图层
-                //mBaiduMap.setMyLocationEnabled(false);
-
-                mMapView.onResume();
+                MasterHandler.sendEmptyMessage(BaseMsgID.MsgID.Handle_BaiduMapInit);
                 break;
             case R.id.myPlaceLayout:
-                mMapView.onPause();
                 mViewPager.setCurrentItem(1);
                 ViewPager viewPager = $(R.id.mQuiryViewPager);
-
                 List<View> list = new ArrayList<>();
                 LayoutInflater inflater = getLayoutInflater();
                 list.add(inflater.inflate(R.layout.mlayout_main_map, null));
@@ -281,7 +296,6 @@ public class MainView extends BaseActivity {
                 viewPager.setAdapter(adapter);
                 break;
             case R.id.mySelfLayout:
-                mMapView.onPause();
                 mViewPager.setCurrentItem(2);
                 break;
             default:
@@ -293,7 +307,11 @@ public class MainView extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mMapView.onDestroy();
+        try {
+            mMapView.onDestroy();
+        } catch (Exception e) {
+            Log.d("QiuChen", "销毁百度地图时发生异常!异常信息:" + e.getMessage());
+        }
     }
 
     @Override
