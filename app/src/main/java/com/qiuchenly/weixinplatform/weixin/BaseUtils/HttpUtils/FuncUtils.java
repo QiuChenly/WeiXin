@@ -82,6 +82,9 @@ public class FuncUtils implements AbsLogin {
         String s = null;
         try {
             s = httpClient.Request_Str(url.toString());
+            if (s == null) {
+                return false;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,8 +97,36 @@ public class FuncUtils implements AbsLogin {
     }
 
     @Override
-    public void register(String userNick, String PhoneNum, String passWord) {
-
+    public boolean register(String userNick, String PhoneNum, String passWord) {
+        /*
+        注册接口加密校验
+         */
+        long timestamp = System.currentTimeMillis();
+        String sign = md5(timestamp + PhoneNum + passWord);
+        StringBuffer url = new StringBuffer();
+        url.append(BaseData.HostName + BaseData.Func_Register);
+        url.append("userName=").append(userNick);
+        url.append("&phone=").append(PhoneNum);
+        url.append("&password=").append(passWord);
+        url.append("&sign=").append(sign);
+        url.append("&tt=").append(sign);
+        url.append("&signs=").append(md5(sign + url.toString()));
+        LoginResult result;
+        String s = null;
+        try {
+            s = httpClient.Request_Str(url.toString());
+            if (s == null) {
+                return false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        result = GsonUtil.ResolveJsonA(s, LoginResult.class);
+        if (Objects.equals(result.getErrNo(), "0")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static String md5(String string) {

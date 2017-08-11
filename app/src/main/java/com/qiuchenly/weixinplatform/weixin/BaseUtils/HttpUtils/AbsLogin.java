@@ -10,5 +10,5 @@ package com.qiuchenly.weixinplatform.weixin.BaseUtils.HttpUtils;
 public interface AbsLogin {
     boolean login(String userPhoneNum, String pass);
 
-    void register(String userNick, String PhoneNum, String passWord);
+    boolean register(String userNick, String PhoneNum, String passWord);
 }
