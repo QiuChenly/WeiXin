@@ -2,30 +2,25 @@ package com.qiuchenly.weixinplatform.weixin.UI;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.AttributeSet;
-import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseRecyclerViewAdapter;
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.HttpUtils.FuncUtils;
 import com.qiuchenly.weixinplatform.weixin.R;
 import com.qiuchenly.weixinplatform.weixin.UI.UILogic.InterMsgID;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class LoginView extends BaseActivity {
 
@@ -49,7 +44,7 @@ public class LoginView extends BaseActivity {
         mBack.setItemAnimator(new DefaultItemAnimator());
         mBack.setHasFixedSize(false);
 
-        mBack.setLayoutManager(new StaggeredGridLayoutManager(2,OrientationHelper.VERTICAL));
+        mBack.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));
         mBack.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -127,7 +122,23 @@ public class LoginView extends BaseActivity {
                     }.start();
                     break;
                 case InterMsgID.registerMsg:
-                    startActivity(RegisterView.class);
+//                    startActivity(RegisterView.class);
+
+                    FrameLayout frameLayout = $(R.id.mLoginViewControl);
+                    frameLayout.setVisibility(View.GONE);
+                    frameLayout = $(R.id.mRegisterViewControl);
+                    frameLayout.setVisibility(View.VISIBLE);
+
+                    FrameLayout frameLayout1 = $(R.id.mRegisterBackControl);
+                    frameLayout1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            FrameLayout frameLayout = $(R.id.mLoginViewControl);
+                            frameLayout.setVisibility(View.VISIBLE);
+                            frameLayout = $(R.id.mRegisterViewControl);
+                            frameLayout.setVisibility(View.GONE);
+                        }
+                    });
                     break;
                 default:
                     break;
@@ -154,5 +165,20 @@ public class LoginView extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        /*
+         * 实现返回键退回登录页
+         */
+        FrameLayout frameLayout = $(R.id.mLoginViewControl);
+        if (frameLayout.getVisibility() == View.GONE) {
+            frameLayout.setVisibility(View.VISIBLE);
+            frameLayout = $(R.id.mRegisterViewControl);
+            frameLayout.setVisibility(View.GONE);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

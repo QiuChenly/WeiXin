@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-
 import com.qiuchenly.weixinplatform.weixin.BaseUtils.BaseActivity;
 import com.qiuchenly.weixinplatform.weixin.R;
 
 public class RegisterView extends BaseActivity {
-
 
     @Override
     public void getSharedPreference(SharedPreferences sp, SharedPreferences.Editor Ueditors) {
@@ -47,7 +45,6 @@ public class RegisterView extends BaseActivity {
         setOpenDoubleClickBackKeyReturnUpView(true);
     }
 
-
     @Override
     public void ViewClick(View v) {
         switch (v.getId()) {
@@ -55,4 +52,5 @@ public class RegisterView extends BaseActivity {
                 break;
         }
     }
+
 }

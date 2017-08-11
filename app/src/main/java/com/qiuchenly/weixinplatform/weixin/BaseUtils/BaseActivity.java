@@ -45,12 +45,11 @@ public abstract class BaseActivity extends AppCompatActivity
     //是否开启双击返回键退出
     private boolean isAllowDoubleClickBackKey = false;
 
-    //是否开启单击返回就爱你返回上一页
+    //是否开启单击返回返回上一页
     private boolean isOpenDoubleClickBackKeyReturnUpView = false;
 
-
     /**
-     * 是否开启单击返回就爱你返回上一页
+     * 是否开启单击返回返回上一页
      *
      * @param openDoubleClickBackKeyReturnUpView
      */
@@ -152,7 +151,6 @@ public abstract class BaseActivity extends AppCompatActivity
      */
     public abstract void ViewClick(View v);
 
-
     public void setDisableActionBar(boolean disableActionBar) {
         isDisableActionBar = disableActionBar;
     }
@@ -168,7 +166,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
     /**
      * 简化Toast显示
-     *
      * @param msg 消息内容
      */
     protected void showToast(String msg) {
