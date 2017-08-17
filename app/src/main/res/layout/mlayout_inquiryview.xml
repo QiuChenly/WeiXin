@@ -5,8 +5,15 @@
               android:background="#0d6dcc"
               android:orientation="vertical">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
+    <android.support.v4.view.ViewPager
+        android:layout_marginTop="26dp"
+        android:id="@+id/mQuiryViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.PagerTitleStrip
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"/>
+    </android.support.v4.view.ViewPager>
 </LinearLayout>

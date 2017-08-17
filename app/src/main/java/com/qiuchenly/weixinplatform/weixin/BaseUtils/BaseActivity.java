@@ -2,6 +2,7 @@ package com.qiuchenly.weixinplatform.weixin.BaseUtils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.baidu.mapapi.SDKInitializer;
+
 /**
  * Author: QiuChenluoye
  * Time: 2017/07/26,上午 09:58
@@ -21,6 +24,8 @@ import android.widget.Toast;
 
 public abstract class BaseActivity extends AppCompatActivity
         implements View.OnClickListener {
+    private SharedPreferences Usp;
+    SharedPreferences.Editor Ueditor;
 
     //上一次按键时间
     long lastTime;
@@ -40,9 +45,22 @@ public abstract class BaseActivity extends AppCompatActivity
     //是否开启双击返回键退出
     private boolean isAllowDoubleClickBackKey = false;
 
+    //是否开启单击返回返回上一页
+    private boolean isOpenDoubleClickBackKeyReturnUpView = false;
+
+    /**
+     * 是否开启单击返回返回上一页
+     *
+     * @param openDoubleClickBackKeyReturnUpView
+     */
+    public void setOpenDoubleClickBackKeyReturnUpView(boolean openDoubleClickBackKeyReturnUpView) {
+        isOpenDoubleClickBackKeyReturnUpView = openDoubleClickBackKeyReturnUpView;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SDKInitializer.initialize(getApplicationContext());
         Log.d(TAG, "BaseActivity----is OnCreate.");
 
         Bundle bundle = getIntent().getExtras();
@@ -70,14 +88,19 @@ public abstract class BaseActivity extends AppCompatActivity
         setContentView(mContextView);
         initView(mContextView);
         setListener();
-        doBusiness(mContextView.getContext());
+        doBusiness(mContextView.getContext(), mContextView);
+        Usp = BaseActivity.this.getSharedPreferences("QiuChen", MODE_ENABLE_WRITE_AHEAD_LOGGING);
+        Ueditor = Usp.edit();
+        getSharedPreference(Usp, Ueditor);
     }
+
+    public abstract void getSharedPreference(SharedPreferences sp, SharedPreferences.Editor Ueditors);
 
     public <T> boolean isNull(T obj) {
         return (null == obj);
     }
 
-    public abstract void doBusiness(Context mContext);
+    public abstract void doBusiness(Context mContext, View view);
 
     public abstract void setListener();
 
@@ -88,26 +111,31 @@ public abstract class BaseActivity extends AppCompatActivity
     public abstract void initView(final View view);
 
     protected <T extends View> T $(int resID) {
-        return (T) super.findViewById(resID);
+        return (T) mContextView.findViewById(resID);
     }
 
     public abstract void initParams(Bundle bundle);
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (isAllowDoubleClickBackKey) {
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                long now = System.currentTimeMillis();
-                if (now - lastTime > 2000) {
-                    showToast("再按一次关闭程序~");
-                    lastTime = now;
-                } else {
-                    moveTaskToBack(true);
-                }
-            }
+        if (isOpenDoubleClickBackKeyReturnUpView) {
+            super.onKeyDown(keyCode, event);
             return true;
         } else {
-            return false;
+            if (isAllowDoubleClickBackKey) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    long now = System.currentTimeMillis();
+                    if (now - lastTime > 2000) {
+                        showToast("再按一次关闭程序~");
+                        lastTime = now;
+                    } else {
+                        moveTaskToBack(true);
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -122,7 +150,6 @@ public abstract class BaseActivity extends AppCompatActivity
      * @param v 响应的具体View
      */
     public abstract void ViewClick(View v);
-
 
     public void setDisableActionBar(boolean disableActionBar) {
         isDisableActionBar = disableActionBar;
@@ -139,7 +166,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
     /**
      * 简化Toast显示
-     *
      * @param msg 消息内容
      */
     protected void showToast(String msg) {
